@@ -52,22 +52,24 @@ while True:
         else:
             new_ = np.concatenate([new_,np.array(new_list[i], dtype=np.float64)],axis=0)
             new_l = np.concatenate([new_l, np.array(new_list_camera, dtype=np.float64)[i]],axis=0)
-            cameraAngle = np.concatenate([cameraAngle, np.array(cameraAngle, dtype=np.float64)[i], axis=0)
+            cameraAngle = np.concatenate([cameraAngle, np.array(camera_angle, dtype=np.float64)[i]], axis=0)
         
 #        new_l = np.array(new_list_camera, dtype=np.float64)[i]
 
         camera_position = np.array([float(np.mean(new_l[:,0])),float(np.mean(new_l[:,1])),float(np.mean(new_l[:,2]))], dtype=np.float64)
-        center = np.array([float(np.mean(new_[:,0])), float(np.mean(new_[:,1])), float(np.mean(new_[:,2]))], dtype=np.float64) # object center
-        cameraAngle_ = np.array([float(np.mean(cameraAngle[:,0])), float(np.mean(cameraAngle[:,1])), float(np.mean(cameraAngle[:,2]))],dtype=np.float64)
+#        center
+        cameraAngle_= np.array([float(np.mean(new_[:,0])), float(np.mean(new_[:,1])), float(np.mean(new_[:,2]))], dtype=np.float64) # object center
+        #cameraAngle_
+        center= np.array([float(np.mean(cameraAngle[:,0])), float(np.mean(cameraAngle[:,1])), float(np.mean(cameraAngle[:,2]))],dtype=np.float64)
 
         print('distance', np.linalg.norm(camera_position-center))
-
-
+        print(camera_position)
+        print(cameraAngle_)
         # create geometries
         geometry.points = o3d.utility.Vector3dVector(new_)
         geometry_camera.points = o3d.utility.Vector3dVector(new_l)
         geometry_center.points = o3d.utility.Vector3dVector([center])
-        geometry_camera_angle.points = o3d.utility.Vector3dVector(cameraAngle_)
+        geometry_camera_angle.points = o3d.utility.Vector3dVector(cameraAngle)
 
         # paint color
         geometry.paint_uniform_color([0, 0.651, 0.929])
@@ -119,7 +121,7 @@ while True:
 
         vis.poll_events()
         vis.update_renderer()
-        #ytime.sleep(1)
+        time.sleep(1/20)
 vis.destroy_window()
 
 
